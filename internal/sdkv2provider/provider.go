@@ -292,6 +292,7 @@ func New(version string) func() *schema.Provider {
 				"cloudflare_bot_management":                                  resourceCloudflareBotManagement(),
 				"cloudflare_teams_account":                                   resourceCloudflareTeamsAccount(),
 				"cloudflare_zero_trust_gateway_settings":                     resourceCloudflareZeroTrustGatewaySettings(),
+				"cloudflare_zero_trust_gateway_certificate":                  resourceCloudflareTeamsCertificate(),
 				"cloudflare_teams_list":                                      resourceCloudflareTeamsList(),
 				"cloudflare_zero_trust_list":                                 resourceCloudflareZeroTrustList(),
 				"cloudflare_teams_location":                                  resourceCloudflareTeamsLocation(),
