@@ -52,9 +52,9 @@ func resourceCloudflareRecordCreate(ctx context.Context, d *schema.ResourceData,
 	client := meta.(*cloudflare.API)
 
 	newRecord := cloudflare.CreateDNSRecordParams{
-		Type:   d.Get("type").(string),
-		Name:   d.Get("name").(string),
-		ZoneID: d.Get(consts.ZoneIDSchemaKey).(string),
+		Type: d.Get("type").(string),
+		Name: d.Get("name").(string),
+		ID:   d.Get(consts.ZoneIDSchemaKey).(string),
 	}
 
 	proxied, proxiedOk := d.GetOkExists("proxied")
@@ -106,7 +106,7 @@ func resourceCloudflareRecordCreate(ctx context.Context, d *schema.ResourceData,
 	}
 
 	if newRecord.Name == "" {
-		return diag.FromErr(fmt.Errorf("record on zone %s must not have an empty name (use @ for the zone apex)", newRecord.ZoneID))
+		return diag.FromErr(fmt.Errorf("record on zone %s must not have an empty name (use @ for the zone apex)", newRecord.ID))
 	}
 
 	// Validate value based on type
@@ -139,7 +139,7 @@ func resourceCloudflareRecordCreate(ctx context.Context, d *schema.ResourceData,
 	tflog.Debug(ctx, fmt.Sprintf("Cloudflare Record create configuration: %#v", newRecord))
 
 	retry := retry.RetryContext(ctx, d.Timeout(schema.TimeoutCreate), func() *retry.RetryError {
-		r, err := client.CreateDNSRecord(ctx, cloudflare.ZoneIdentifier(newRecord.ZoneID), newRecord)
+		r, err := client.CreateDNSRecord(ctx, cloudflare.ZoneIdentifier(newRecord.ID), newRecord)
 		if err != nil {
 			if strings.Contains(err.Error(), "already exist") {
 				if d.Get("allow_overwrite").(bool) {
@@ -415,7 +415,7 @@ func resourceCloudflareRecordImport(ctx context.Context, d *schema.ResourceData,
 	}
 
 	tflog.Info(ctx, fmt.Sprintf("Found record: %s", record.Name))
-	name := strings.TrimSuffix(record.Name, "."+record.ZoneName)
+	name := strings.TrimSuffix(record.Name, "."+record.Name)
 
 	d.Set("name", name)
 	d.Set(consts.ZoneIDSchemaKey, zoneID)
