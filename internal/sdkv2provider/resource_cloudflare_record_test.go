@@ -778,7 +778,7 @@ func testAccCheckCloudflareRecordDestroy(s *terraform.State) error {
 func testAccManuallyDeleteRecord(record *cloudflare.DNSRecord) resource.TestCheckFunc {
 	return func(s *terraform.State) error {
 		client := testAccProvider.Meta().(*cloudflare.API)
-		err := client.DeleteDNSRecord(context.Background(), cloudflare.ZoneIdentifier(record.ZoneID), record.ID)
+		err := client.DeleteDNSRecord(context.Background(), cloudflare.ZoneIdentifier(record.ID), record.ID)
 		if err != nil {
 			return err
 		}
