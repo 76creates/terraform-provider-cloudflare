@@ -102,4 +102,4 @@ require (
 	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
 
-replace github.com/cloudflare/cloudflare-go => /Users/gliga/go/src/github.com/76creates/cloudflare-go
+replace github.com/cloudflare/cloudflare-go => ./cloudflare-go
