@@ -54,5 +54,5 @@ snapshot:
 
 announce:
   discord:
-    enabled: true
+    enabled: false
     message_template: "{{ .ProjectName }} ({{ .Version }}) has been released. See the release notes at {{ .ReleaseURL }}"
